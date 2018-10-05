@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.blog.pojo.Category">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Guid" jdbcType="VARCHAR" property="guid" />
+    <result column="Uid" jdbcType="INTEGER" property="uid" />
+    <result column="Pid" jdbcType="INTEGER" property="pid" />
+    <result column="IsDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Hot" jdbcType="INTEGER" property="hot" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, Name, Guid, Uid, Pid, IsDeleted, CreateTime, Hot
+  </sql>
+  <insert id="insert" parameterType="com.blog.pojo.Category">
+    insert into category (
+   Id,Name,Guid,Uid,Pid,IsDeleted,CreateTime,Hot 
+   ) values ( 
+   #{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{guid,jdbcType=VARCHAR},#{uid,jdbcType=INTEGER},#{pid,jdbcType=INTEGER},#{isdeleted,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP},#{hot,jdbcType=INTEGER} 
+   )
+  </insert>
+  <sql id="All_Column_List">
+    Id,Name,Guid,Uid,Pid,IsDeleted,CreateTime,Hot
+  </sql>
+  <select id="selectByStringCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from category
+    where 1=1 ${_parameter}
+  </select>
+  <select id="selectByCondition" parameterType="com.blog.pojo.Category" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from category
+    <where>
+      <if test="true">
+         1=1 
+      </if>
+      <if test="name !=null ">
+            and Name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="guid !=null ">
+            and Guid = #{guid,jdbcType=VARCHAR}
+      </if>
+      <if test="uid !=null ">
+            and Uid = #{uid,jdbcType=INTEGER}
+      </if>
+      <if test="pid !=null ">
+            and Pid = #{pid,jdbcType=INTEGER}
+      </if>
+      <if test="isDeleted !=null ">
+            and IsDeleted = #{isdeleted,jdbcType=INTEGER}
+      </if>
+      <if test="createTime !=null ">
+            and CreateTime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="hot !=null ">
+            and Hot = #{hot,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByGuid" parameterType="java.lang.String">
+    delete from category
+     where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByGuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+     from category
+     where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByGuidSelective" parameterType="com.blog.pojo.Category">
+    update category
+    <set>
+      <trim suffixOverrides=",">
+        <if test="name != null">
+            Name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="uid != null">
+            Uid = #{uid,jdbcType=INTEGER},
+        </if>
+        <if test="pid != null">
+            Pid = #{pid,jdbcType=INTEGER},
+        </if>
+        <if test="isDeleted != null">
+            IsDeleted = #{isdeleted,jdbcType=INTEGER},
+        </if>
+        <if test="hot != null">
+            Hot = #{hot,jdbcType=INTEGER},
+        </if>
+      </trim>
+    </set>
+     where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

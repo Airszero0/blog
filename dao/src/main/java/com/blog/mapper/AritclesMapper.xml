@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.AritclesMapper">
+  <resultMap id="BaseResultMap" type="com.blog.pojo.Aritcles">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Guid" jdbcType="VARCHAR" property="guid" />
+    <result column="Title" jdbcType="VARCHAR" property="title" />
+    <result column="Desc" jdbcType="VARCHAR" property="desc" />
+    <result column="ViewCount" jdbcType="INTEGER" property="viewcount" />
+    <result column="PublishDate" jdbcType="TIMESTAMP" property="publishdate" />
+    <result column="Category" jdbcType="VARCHAR" property="category" />
+    <result column="CategoryGuid" jdbcType="VARCHAR" property="categoryguid" />
+    <result column="IsDraft" jdbcType="INTEGER" property="isdraft" />
+    <result column="IsDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="HeadImage" jdbcType="VARCHAR" property="headimage" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blog.pojo.Aritcles">
+    <result column="Content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, Guid, Title, Desc, ViewCount, PublishDate, Category, CategoryGuid, IsDraft, IsDeleted, 
+    CreateTime, HeadImage
+  </sql>
+  <sql id="Blob_Column_List">
+    Content
+  </sql>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blog.pojo.Aritcles">
+    update aritcles
+    set Guid = #{guid,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Desc = #{desc,jdbcType=VARCHAR},
+      ViewCount = #{viewcount,jdbcType=INTEGER},
+      PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+      Category = #{category,jdbcType=VARCHAR},
+      CategoryGuid = #{categoryguid,jdbcType=VARCHAR},
+      IsDraft = #{isdraft,jdbcType=INTEGER},
+      IsDeleted = #{isdeleted,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      HeadImage = #{headimage,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=LONGVARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.blog.pojo.Aritcles">
+    insert into aritcles (
+   Id,Guid,Title,Desc,ViewCount,PublishDate,Category,CategoryGuid,IsDraft,IsDeleted,CreateTime,HeadImage,Content 
+   ) values ( 
+   #{id,jdbcType=INTEGER},#{guid,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR},#{viewcount,jdbcType=INTEGER},#{publishdate,jdbcType=TIMESTAMP},#{category,jdbcType=VARCHAR},#{categoryguid,jdbcType=VARCHAR},#{isdraft,jdbcType=INTEGER},#{isdeleted,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP},#{headimage,jdbcType=VARCHAR},#{content,jdbcType=LONGVARCHAR} 
+   )
+  </insert>
+  <sql id="All_Column_List">
+    Id,Guid,Title,Desc,ViewCount,PublishDate,Category,CategoryGuid,IsDraft,IsDeleted,CreateTime,HeadImage,Content
+  </sql>
+  <select id="selectByStringCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from aritcles
+    where 1=1 ${_parameter}
+  </select>
+  <select id="selectByCondition" parameterType="com.blog.pojo.Aritcles" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from aritcles
+    <where>
+      <if test="true">
+         1=1 
+      </if>
+      <if test="guid !=null ">
+            and Guid = #{guid,jdbcType=VARCHAR}
+      </if>
+      <if test="title !=null ">
+            and Title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="desc !=null ">
+            and Desc = #{desc,jdbcType=VARCHAR}
+      </if>
+      <if test="viewCount !=null ">
+            and ViewCount = #{viewcount,jdbcType=INTEGER}
+      </if>
+      <if test="publishDate !=null ">
+            and PublishDate = #{publishdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="category !=null ">
+            and Category = #{category,jdbcType=VARCHAR}
+      </if>
+      <if test="categoryGuid !=null ">
+            and CategoryGuid = #{categoryguid,jdbcType=VARCHAR}
+      </if>
+      <if test="isDraft !=null ">
+            and IsDraft = #{isdraft,jdbcType=INTEGER}
+      </if>
+      <if test="isDeleted !=null ">
+            and IsDeleted = #{isdeleted,jdbcType=INTEGER}
+      </if>
+      <if test="createTime !=null ">
+            and CreateTime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="headImage !=null ">
+            and HeadImage = #{headimage,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByGuid" parameterType="java.lang.String">
+    delete from aritcles
+     where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByGuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+     from aritcles
+     where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByGuidSelective" parameterType="com.blog.pojo.Aritcles">
+    update aritcles
+    <set>
+      <trim suffixOverrides=",">
+        <if test="title != null">
+            Title = #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="desc != null">
+            Desc = #{desc,jdbcType=VARCHAR},
+        </if>
+        <if test="viewCount != null">
+            ViewCount = #{viewcount,jdbcType=INTEGER},
+        </if>
+        <if test="publishDate != null">
+            PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="category != null">
+            Category = #{category,jdbcType=VARCHAR},
+        </if>
+        <if test="categoryGuid != null">
+            CategoryGuid = #{categoryguid,jdbcType=VARCHAR},
+        </if>
+        <if test="isDraft != null">
+            IsDraft = #{isdraft,jdbcType=INTEGER},
+        </if>
+        <if test="isDeleted != null">
+            IsDeleted = #{isdeleted,jdbcType=INTEGER},
+        </if>
+        <if test="headImage != null">
+            HeadImage = #{headimage,jdbcType=VARCHAR},
+        </if>
+      </trim>
+    </set>
+     where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

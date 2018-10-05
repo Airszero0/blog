@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.RoleMapMapper">
+  <resultMap id="BaseResultMap" type="com.blog.pojo.RoleMap">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Guid" jdbcType="VARCHAR" property="guid" />
+    <result column="RoleName" jdbcType="VARCHAR" property="rolename" />
+    <result column="Auths" jdbcType="VARCHAR" property="auths" />
+    <result column="IsEnabled" jdbcType="INTEGER" property="isenabled" />
+    <result column="IsDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, Guid, RoleName, Auths, IsEnabled, IsDeleted, CreateTime
+  </sql>
+  <insert id="insert" parameterType="com.blog.pojo.RoleMap">
+    insert into rolemap (
+   Id,Guid,RoleName,Auths,IsEnabled,IsDeleted,CreateTime 
+   ) values ( 
+   #{id,jdbcType=INTEGER},#{guid,jdbcType=VARCHAR},#{rolename,jdbcType=VARCHAR},#{auths,jdbcType=VARCHAR},#{isenabled,jdbcType=INTEGER},#{isdeleted,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP} 
+   )
+  </insert>
+  <sql id="All_Column_List">
+    Id,Guid,RoleName,Auths,IsEnabled,IsDeleted,CreateTime
+  </sql>
+  <select id="selectByStringCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from rolemap
+    where 1=1 ${_parameter}
+  </select>
+  <select id="selectByCondition" parameterType="com.blog.pojo.RoleMap" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from rolemap
+    <where>
+      <if test="true">
+         1=1 
+      </if>
+      <if test="guid !=null ">
+            and Guid = #{guid,jdbcType=VARCHAR}
+      </if>
+      <if test="roleName !=null ">
+            and RoleName = #{rolename,jdbcType=VARCHAR}
+      </if>
+      <if test="auths !=null ">
+            and Auths = #{auths,jdbcType=VARCHAR}
+      </if>
+      <if test="isEnabled !=null ">
+            and IsEnabled = #{isenabled,jdbcType=INTEGER}
+      </if>
+      <if test="isDeleted !=null ">
+            and IsDeleted = #{isdeleted,jdbcType=INTEGER}
+      </if>
+      <if test="createTime !=null ">
+            and CreateTime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByGuid" parameterType="java.lang.String">
+    delete from rolemap
+     where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByGuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+     from rolemap
+     where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByGuidSelective" parameterType="com.blog.pojo.RoleMap">
+    update rolemap
+    <set>
+      <trim suffixOverrides=",">
+        <if test="roleName != null">
+            RoleName = #{rolename,jdbcType=VARCHAR},
+        </if>
+        <if test="auths != null">
+            Auths = #{auths,jdbcType=VARCHAR},
+        </if>
+        <if test="isEnabled != null">
+            IsEnabled = #{isenabled,jdbcType=INTEGER},
+        </if>
+        <if test="isDeleted != null">
+            IsDeleted = #{isdeleted,jdbcType=INTEGER},
+        </if>
+      </trim>
+    </set>
+     where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

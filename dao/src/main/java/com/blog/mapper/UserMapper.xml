@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.blog.pojo.User">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="UserName" jdbcType="VARCHAR" property="username" />
+    <result column="Password" jdbcType="VARCHAR" property="password" />
+    <result column="Guid" jdbcType="VARCHAR" property="guid" />
+    <result column="Salt" jdbcType="VARCHAR" property="salt" />
+    <result column="PhoneNumber" jdbcType="VARCHAR" property="phonenumber" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="LastIp" jdbcType="VARCHAR" property="lastip" />
+    <result column="GroupId" jdbcType="INTEGER" property="groupid" />
+    <result column="RoleId" jdbcType="INTEGER" property="roleid" />
+    <result column="IsEnabled" jdbcType="INTEGER" property="isenabled" />
+    <result column="IsDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="IsBlocked" jdbcType="INTEGER" property="isblocked" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, UserName, Password, Guid, Salt, PhoneNumber, Email, LastIp, GroupId, RoleId, 
+    IsEnabled, IsDeleted, CreateTime, IsBlocked
+  </sql>
+  <insert id="insert" parameterType="com.blog.pojo.User">
+    insert into user (
+   Id,UserName,Password,Guid,Salt,PhoneNumber,Email,LastIp,GroupId,RoleId,IsEnabled,IsDeleted,CreateTime,IsBlocked 
+   ) values ( 
+   #{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{guid,jdbcType=VARCHAR},#{salt,jdbcType=VARCHAR},#{phonenumber,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{lastip,jdbcType=VARCHAR},#{groupid,jdbcType=INTEGER},#{roleid,jdbcType=INTEGER},#{isenabled,jdbcType=INTEGER},#{isdeleted,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP},#{isblocked,jdbcType=INTEGER} 
+   )
+  </insert>
+  <sql id="All_Column_List">
+    Id,UserName,Password,Guid,Salt,PhoneNumber,Email,LastIp,GroupId,RoleId,IsEnabled,IsDeleted,CreateTime,IsBlocked
+  </sql>
+  <select id="selectByStringCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from user
+    where 1=1 ${_parameter}
+  </select>
+  <select id="selectByCondition" parameterType="com.blog.pojo.User" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+    from user
+    <where>
+      <if test="true">
+         1=1 
+      </if>
+      <if test="userName !=null ">
+            and UserName = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="password !=null ">
+            and Password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="guid !=null ">
+            and Guid = #{guid,jdbcType=VARCHAR}
+      </if>
+      <if test="salt !=null ">
+            and Salt = #{salt,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNumber !=null ">
+            and PhoneNumber = #{phonenumber,jdbcType=VARCHAR}
+      </if>
+      <if test="email !=null ">
+            and Email = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="lastIp !=null ">
+            and LastIp = #{lastip,jdbcType=VARCHAR}
+      </if>
+      <if test="groupId !=null ">
+            and GroupId = #{groupid,jdbcType=INTEGER}
+      </if>
+      <if test="roleId !=null ">
+            and RoleId = #{roleid,jdbcType=INTEGER}
+      </if>
+      <if test="isEnabled !=null ">
+            and IsEnabled = #{isenabled,jdbcType=INTEGER}
+      </if>
+      <if test="isDeleted !=null ">
+            and IsDeleted = #{isdeleted,jdbcType=INTEGER}
+      </if>
+      <if test="createTime !=null ">
+            and CreateTime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="isBlocked !=null ">
+            and IsBlocked = #{isblocked,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByGuid" parameterType="java.lang.String">
+    delete from user
+     where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByGuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="All_Column_List" />
+     from user
+     where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByGuidSelective" parameterType="com.blog.pojo.User">
+    update user
+    <set>
+      <trim suffixOverrides=",">
+        <if test="userName != null">
+            UserName = #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            Password = #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="salt != null">
+            Salt = #{salt,jdbcType=VARCHAR},
+        </if>
+        <if test="phoneNumber != null">
+            PhoneNumber = #{phonenumber,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null">
+            Email = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="lastIp != null">
+            LastIp = #{lastip,jdbcType=VARCHAR},
+        </if>
+        <if test="groupId != null">
+            GroupId = #{groupid,jdbcType=INTEGER},
+        </if>
+        <if test="roleId != null">
+            RoleId = #{roleid,jdbcType=INTEGER},
+        </if>
+        <if test="isEnabled != null">
+            IsEnabled = #{isenabled,jdbcType=INTEGER},
+        </if>
+        <if test="isDeleted != null">
+            IsDeleted = #{isdeleted,jdbcType=INTEGER},
+        </if>
+        <if test="isBlocked != null">
+            IsBlocked = #{isblocked,jdbcType=INTEGER},
+        </if>
+      </trim>
+    </set>
+     where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>
